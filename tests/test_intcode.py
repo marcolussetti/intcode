@@ -1,13 +1,14 @@
 from intcode.intcode import intcode, chain_intercodes, looping_intcodes
+from collections import defaultdict
 
 
 # Day 2
 def test_day2_part1_examples():
-    assert intcode([1, 0, 0, 0, 99])[1] == [2, 0, 0, 0, 99]
-    assert intcode([2, 3, 0, 3, 99])[1] == [2, 3, 0, 6, 99]
-    assert intcode([2, 4, 4, 5, 99, 0])[1] == [2, 4, 4, 5, 99, 9801]
+    assert intcode([1, 0, 0, 0, 99])[1] == defaultdict(int, enumerate([2, 0, 0, 0, 99]))
+    assert intcode([2, 3, 0, 3, 99])[1] == defaultdict(int, enumerate([2, 3, 0, 6, 99]))
+    assert intcode([2, 4, 4, 5, 99, 0])[1] == defaultdict(int, enumerate([2, 4, 4, 5, 99, 9801]))
     assert intcode([1, 1, 1, 4, 99, 5, 6, 0, 99])[
-        1] == [30, 1, 1, 4, 2, 5, 6, 0, 99]
+        1] == defaultdict(int, enumerate([30, 1, 1, 4, 2, 5, 6, 0, 99]))
 
 
 def test_day2_part1():
@@ -125,23 +126,20 @@ def test_day7_part2():
 # Day 9
 def test_day9_part1_examples():
     assert intcode([109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99],
-                   extend=1000
                    )[0] == [109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99]
-    assert len(str(intcode([1102, 34915192, 34915192, 7,
-                            4, 7, 99, 0], extend=1000)[0][-1])) == 16
-    assert intcode([104, 1125899906842624, 99], extend=1000)[
-        0][-1] == 1125899906842624
+    assert len(str(intcode([1102, 34915192, 34915192, 7, 4, 7, 99, 0])[0][-1])) == 16
+    assert intcode([104, 1125899906842624, 99])[0][-1] == 1125899906842624
 
 
 def test_day9_part1():
     with open('tests/inputs/09_marcolussetti', 'r') as f:
         file_lines = f.readlines()
     input_lines = [int(line.strip()) for line in file_lines[0].split(",")]
-    assert intcode(input_lines, [1], extend=1000)[0][-1] == 2457252183
+    assert intcode(input_lines, [1])[0][-1] == 2457252183
 
 
 def test_day9_part2():
     with open('tests/inputs/09_marcolussetti', 'r') as f:
         file_lines = f.readlines()
     input_lines = [int(line.strip()) for line in file_lines[0].split(",")]
-    assert intcode(input_lines, [2], extend=1000)[0][-1] == 70634
+    assert intcode(input_lines, [2])[0][-1] == 70634
